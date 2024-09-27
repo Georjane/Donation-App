@@ -32,7 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::get('campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
     
     // Donation routes
-    Route::post('campaigns/{campaign}/donate', [DonationController::class, 'donate'])->name('campaigns.donate'); // Donate to a specific campaign
+    // Route to show the donation form for a specific campaign
+    Route::get('campaigns/{campaign}/donate', [DonationController::class, 'showDonateForm'])->name('campaigns.donate');
+    // Store the donation
+    Route::post('campaigns/{campaign}/donate', [DonationController::class, 'store'])->name('campaigns.donate.store');
+    // Route::post('campaigns/{campaign}/donate', [DonationController::class, 'donate'])->name('campaigns.donate'); // Donate to a specific campaign
     Route::get('donations', [DonationController::class, 'index'])->name('donations.index'); // List all donations
 });
 

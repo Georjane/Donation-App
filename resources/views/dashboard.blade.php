@@ -34,10 +34,7 @@
                     <p>Start a new fundraising campaign.</p>
                     <a href="{{ route('campaigns.create') }}" class="mt-2 inline-block text-blue-600 hover:underline">Create Campaign</a>
                 </div>
-
-                <a href="{{ route('campaigns.create') }}" class="mt-2 inline-block text-blue-600 hover:underline">
-    Create Campaign ({{ route('campaigns.create') }})
-</a>
+                
             </div>
         </div>
     </div>

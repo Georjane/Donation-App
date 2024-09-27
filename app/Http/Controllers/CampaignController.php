@@ -34,7 +34,7 @@ class CampaignController extends Controller
             'target_amount' => $request->target_amount,
             'current_amount' => 0,  // Initialize current amount to 0
             'status' => 'open',  // Set initial status to open
-            'user_id' => auth()->id(), // Assuming you have user authentication
+            // 'user_id' => auth()->id(), // Assuming you have user authentication
         ]);
 
         return redirect()->route('campaigns.index')->with('success', 'Campaign created successfully!');

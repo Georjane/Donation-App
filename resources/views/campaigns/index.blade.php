@@ -15,6 +15,27 @@
             </div>
 
             <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <!-- List of Existing Campaigns -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-semibold text-lg">Your Campaigns</h3>
+                    <p>Here are your active campaigns:</p>
+                    <ul class="mt-2">
+                        @foreach($campaigns as $campaign)
+                            <li class="mt-4 border p-4 rounded-lg">
+                                <h4 class="text-xl font-bold">{{ $campaign->name }}</h4>
+                                <p class="mt-1"><strong>Target Amount:</strong> ${{ number_format($campaign->target_amount, 2) }}</p>
+                                <p class="mt-1"><strong>Current Amount:</strong> ${{ number_format($campaign->current_amount, 2) }}</p>
+                                
+                                <!-- Add Donate Button -->
+                                <a href="{{ route('campaigns.donate', $campaign->id) }}" class="mt-2 inline-block bg-green-600 text-white font-bold py-1 px-2 rounded hover:bg-green-700">
+                                    Donate
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <!-- Other cards can remain here, such as Create Campaign and View Donations -->
                 <!-- View Donations Card -->
                 <div class="bg-white p-4 rounded-lg shadow">
                     <h3 class="font-semibold text-lg">Donations</h3>
@@ -27,19 +48,6 @@
                     <h3 class="font-semibold text-lg">Create Campaign</h3>
                     <p>Start a new fundraising campaign.</p>
                     <a href="{{ route('campaigns.create') }}" class="mt-2 inline-block text-blue-600 hover:underline">Create Campaign</a>
-                </div>
-
-                <!-- List of Existing Campaigns -->
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <h3 class="font-semibold text-lg">Your Campaigns</h3>
-                    <p>Here are your active campaigns:</p>
-                    <ul class="mt-2">
-                        @foreach($campaigns as $campaign)
-                            <li class="mt-2">
-                                <a href="{{ route('campaigns.show', $campaign->id) }}" class="text-blue-600 hover:underline">{{ $campaign->name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
                 </div>
             </div>
         </div>
