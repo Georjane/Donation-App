@@ -25,11 +25,17 @@
                                 <h4 class="text-xl font-bold">{{ $campaign->name }}</h4>
                                 <p class="mt-1"><strong>Target Amount:</strong> ${{ number_format($campaign->target_amount, 2) }}</p>
                                 <p class="mt-1"><strong>Current Amount:</strong> ${{ number_format($campaign->current_amount, 2) }}</p>
+                                <p class="mt-1"><strong>Status:</strong> {{ $campaign->status }}</p>
                                 
-                                <!-- Add Donate Button -->
-                                <a href="{{ route('campaigns.donate', $campaign->id) }}" class="mt-2 inline-block bg-green-600 text-white font-bold py-1 px-2 rounded hover:bg-green-700">
-                                    Donate
-                                </a>
+                                @if($campaign->status === 'completed')
+                    <!-- If the campaign is complete, show a message instead of the donate button -->
+                    <p class="mt-2 text-gray-600">This campaign has been completed. No further donations are needed.</p>
+                @else
+                    <!-- Show the Donate button if the campaign is still open -->
+                    <a href="{{ route('campaigns.donate', $campaign->id) }}" class="mt-2 inline-block bg-green-600 text-white font-bold py-1 px-2 rounded hover:bg-green-700">
+                        Donate
+                    </a>
+                @endif
                             </li>
                         @endforeach
                     </ul>
