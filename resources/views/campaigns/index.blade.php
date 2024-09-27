@@ -45,7 +45,7 @@
                 <!-- View Donations Card -->
                 <div class="bg-white p-4 rounded-lg shadow">
                     <h3 class="font-semibold text-lg">Donations</h3>
-                    <p>Check the status of your donations.</p>
+                    <p>Check your past donations.</p>
                     <a href="{{ route('donations.index') }}" class="mt-2 inline-block text-blue-600 hover:underline">View Donations</a>
                 </div>
 
