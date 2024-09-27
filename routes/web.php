@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CampaignController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,10 +24,16 @@ Route::middleware('auth')->group(function () {
 //     ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
-    Route::post('campaigns', [CampaignController::class, 'create']);
-    Route::get('campaigns', [CampaignController::class, 'index']);
-    Route::post('campaigns/{campaign}/donate', [DonationController::class, 'donate']);
-    Route::get('donations', [DonationController::class, 'index']);
+    // Campaign routes
+    Route::get('campaigns', [CampaignController::class, 'index'])->name('campaigns.index'); // List all campaigns
+    Route::get('campaigns/create', [CampaignController::class, 'create'])->name('campaigns.create');
+    // Route::post('campaigns', [CampaignController::class, 'create'])->name('campaigns.create'); // Create a new campaign
+    Route::post('campaigns', [CampaignController::class, 'store'])->name('campaigns.store');
+    Route::get('campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+    
+    // Donation routes
+    Route::post('campaigns/{campaign}/donate', [DonationController::class, 'donate'])->name('campaigns.donate'); // Donate to a specific campaign
+    Route::get('donations', [DonationController::class, 'index'])->name('donations.index'); // List all donations
 });
 
 require __DIR__.'/auth.php';
