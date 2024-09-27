@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
+            $table->string('name'); // Campaign name
+            $table->decimal('target_amount', 10, 2); // Target amount
+            $table->decimal('current_amount', 10, 2)->default(0); // Current donated amount
+            $table->enum('status', ['open', 'completed'])->default('open');
             $table->timestamps();
         });
     }

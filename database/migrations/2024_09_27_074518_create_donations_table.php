@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('campaign_id')->constrained()->onDelete('cascade'); // Foreign key to Campaign
+            $table->decimal('amount', 10, 2); // Donation amount
+            $table->enum('status', ['pending', 'completed'])->default('pending'); // Donation status
             $table->timestamps();
         });
     }

@@ -1,67 +1,50 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Campaign;
+use App\Models\Donation;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-
-use App\Models\Donation;
 use Illuminate\Http\Request;
 
 class DonationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): View
+    public function store(Request $request): Response
     {
-        return view('donations.index');
-    }
+        // Find the campaign to which the donation is being made
+        $campaign = Campaign::find($request->input('campaign_id'));
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        // Check if the campaign is open and can accept more donations
+        if (!$campaign->isOpen()) {
+            return response('Campaign is closed or target has been reached.', 400);
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // Create a new donation
+        $donation = Donation::create([
+            'campaign_id' => $campaign->id,
+            'amount' => $request->input('amount'),
+            'status' => 'pending',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Donation $donation)
-    {
-        //
-    }
+        // Update the campaign's current amount
+        $campaign->current_amount += $donation->amount;
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Donation $donation)
-    {
-        //
-    }
+        // Check if the campaign has reached its target
+        if ($campaign->hasReachedTarget()) {
+            // Mark the campaign as complete
+            $campaign->markAsComplete();
+            
+            // Mark all donations as complete
+            Donation::where('campaign_id', $campaign->id)
+                ->update(['status' => 'completed']);
+        } else {
+            // Otherwise, mark the donation as complete individually
+            $donation->markAsComplete();
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Donation $donation)
-    {
-        //
-    }
+        // Save the updated campaign amount
+        $campaign->save();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Donation $donation)
-    {
-        //
+        return response('Donation successful!', 200);
     }
 }
